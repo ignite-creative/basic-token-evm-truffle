@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract Token {
+contract BasicToken {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowance;
 
@@ -25,7 +25,7 @@ contract Token {
         _symbol = symbol_;
         _totalSupply = amt_;
         _decimals = decimals_;
-        _balances[msg.sender] = amt_;
+        _balances[msg.sender] = amt_ * 1 ether;
         _owner = msg.sender;
     }
 
@@ -51,7 +51,7 @@ contract Token {
 
     function transfer(address _to, uint256 _amt)
         external
-        sufficientGuard(_to, _amt)
+        sufficientGuard(msg.sender, _amt)
     {
         _balances[msg.sender] -= _amt;
         _balances[_to] += _amt;
